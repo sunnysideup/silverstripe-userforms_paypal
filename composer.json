@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe/userforms_paypal",
+	"name": "sunnysideup/userforms_paypal",
 	"type": "silverstripe-module",
 	"description": "adds a buy now / pay now button to your userdefined form in Silverstripe",
 	"homepage": "http://www.silverstripe-webdevelopment.com",
