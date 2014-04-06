@@ -11,7 +11,7 @@ class UserDefinedFormWithPayPal extends UserDefinedForm {
 	 * then Paypal will be presented with its value as Surname.
 	 * @var Array
 	 */
-	public static $mapped_fields = array(
+	private static $mapped_fields = array(
 		'Surname' => array("Name", "Surname", "LastName"),
 		'FirstName' => array("FirstName", "Firstname", "Name"),
 		'Address1' => array("Address", "Street"),
@@ -22,16 +22,13 @@ class UserDefinedFormWithPayPal extends UserDefinedForm {
 		'Country' => array("Country"),
 		'Email' => array("Email", "E-Mail"),
 	);
-		static function set_mapped_fields($a) {self::$mapped_fields = $a;}
-		static function get_mapped_fields() {return self::$mapped_fields;}
-		static function add_mapped_fields($key, $arrayValue) {self::$mapped_fields[$key] = $arrayValue;}
-		static function remove_mapped_fields($key) {unset(self::$mapped_fields[$key]);}
+
 
 
 	/**
 	 * @var Array Fields on the user defined form page.
 	 */
-	static $db = array(
+	private static $db = array(
 		"Amount" => "Double",
 		"ProductName" => "Varchar(100)",
 		"ProductCode" => "Varchar(10)",
@@ -44,7 +41,7 @@ class UserDefinedFormWithPayPal extends UserDefinedForm {
 	/**
 	 * @var Array Default values of variables when this page is created
 	 */
-	static $defaults = array(
+	private static $defaults = array(
 		'PaypalButtonLabel' => 'pay now'
 	);
 
@@ -57,17 +54,17 @@ class UserDefinedFormWithPayPal extends UserDefinedForm {
 		$fields = parent::getCMSFields();
 
 		// define tabs
-		$fields->findOrMakeTab('Root.Content.Paypal', _t('UserDefinedFormWithPayPal.PAYPAL', 'PayPal'));
+		$fields->findOrMakeTab('Root.Paypal', _t('UserDefinedFormWithPayPal.PAYPAL', 'PayPal'));
 		// field editor
-		$fields->addFieldToTab("Root.Content.Paypal", new HeaderField("UserDefinedFormWithPayPalRequiredFields", _t('UserDefinedFormWithPayPal.REQUIREDFIELDS', 'Required Fields')));
-		$fields->addFieldToTab("Root.Content.Paypal", new EmailField("BusinessEmail", _t('UserDefinedFormWithPayPal.BUSINESSEMAIL', 'Email associated with your paypal account - REQUIRED')));
-		$fields->addFieldToTab("Root.Content.Paypal", new NumericField("Amount", _t('UserDefinedFormWithPayPal.AMOUNT', 'Amount / Charge')));
-		$fields->addFieldToTab("Root.Content.Paypal", new TextField("ProductCode", _t('UserDefinedFormWithPayPal.PRODUCTCODE', 'Product Code, something that uniquely identifies this form / product')));
-		$fields->addFieldToTab("Root.Content.Paypal", new TextField("ProductName", _t('UserDefinedFormWithPayPal.PRODUCTNAME', 'Product Name (as shown on PayPal Payment Form)')));
-		$fields->addFieldToTab("Root.Content.Paypal", new HeaderField("UserDefinedFormWithPayPalNOTRequiredFields", _t('UserDefinedFormWithPayPal.OPTIONALFIELDS', 'Optional Fields')));
-		$fields->addFieldToTab("Root.Content.Paypal", new TextField("CurrencyCode", _t('UserDefinedFormWithPayPal.CURRENCYCODE', 'Currency Code (e.g. NZD or USD or EUR)')));
-		$fields->addFieldToTab("Root.Content.Paypal", new TextField("PaypalButtonLabel", _t('UserDefinedFormWithPayPal.PAYPALBUTTONLABEL', 'PayPal Button Text (e.g. pay now)')));
-		$fields->addFieldToTab("Root.Content.Paypal", new HTMLEditorField("BeforePaymentInstructions", _t('UserDefinedFormWithPayPal.BEFOREPAYMENTINSTRUCTIONS', 'Instructions to go with payment now button (e.g. click on the button above to proceed with your payment)')));
+		$fields->addFieldToTab("Root.Paypal", new HeaderField("UserDefinedFormWithPayPalRequiredFields", _t('UserDefinedFormWithPayPal.REQUIREDFIELDS', 'Required Fields')));
+		$fields->addFieldToTab("Root.Paypal", new EmailField("BusinessEmail", _t('UserDefinedFormWithPayPal.BUSINESSEMAIL', 'Email associated with your paypal account - REQUIRED')));
+		$fields->addFieldToTab("Root.Paypal", new NumericField("Amount", _t('UserDefinedFormWithPayPal.AMOUNT', 'Amount / Charge')));
+		$fields->addFieldToTab("Root.Paypal", new TextField("ProductCode", _t('UserDefinedFormWithPayPal.PRODUCTCODE', 'Product Code, something that uniquely identifies this form / product')));
+		$fields->addFieldToTab("Root.Paypal", new TextField("ProductName", _t('UserDefinedFormWithPayPal.PRODUCTNAME', 'Product Name (as shown on PayPal Payment Form)')));
+		$fields->addFieldToTab("Root.Paypal", new HeaderField("UserDefinedFormWithPayPalNOTRequiredFields", _t('UserDefinedFormWithPayPal.OPTIONALFIELDS', 'Optional Fields')));
+		$fields->addFieldToTab("Root.Paypal", new TextField("CurrencyCode", _t('UserDefinedFormWithPayPal.CURRENCYCODE', 'Currency Code (e.g. NZD or USD or EUR)')));
+		$fields->addFieldToTab("Root.Paypal", new TextField("PaypalButtonLabel", _t('UserDefinedFormWithPayPal.PAYPALBUTTONLABEL', 'PayPal Button Text (e.g. pay now)')));
+		$fields->addFieldToTab("Root.Paypal", new HtmlEditorField("BeforePaymentInstructions", _t('UserDefinedFormWithPayPal.BEFOREPAYMENTINSTRUCTIONS', 'Instructions to go with payment now button (e.g. click on the button above to proceed with your payment)')));
 		return $fields;
 	}
 
@@ -108,7 +105,10 @@ class UserDefinedFormWithPayPal_Controller extends UserDefinedForm_Controller {
 		//pre process?
 		parent::process($data, $form);
 		//post process
-		$this->mostLikeLySubmission = DataObject::get("SubmittedForm", null, "\"Created\" DESC", null, 1)->First();
+		$this->mostLikeLySubmission = SubmittedForm::get()
+			->sort("Created", "DESC")
+			->limit(1)
+			->first();
 		Session::set("UserDefinedFormWithPayPalID", $this->mostLikeLySubmission->ID);
 		$paypalIdentifier1 = new SubmittedFormField();
 		$paypalIdentifier1->Name = "Paypal Identifier";
@@ -142,7 +142,8 @@ class UserDefinedFormWithPayPal_Controller extends UserDefinedForm_Controller {
 	 */
 	function finished() {
 		$referrer = isset($_GET['referrer']) ? urldecode($_GET['referrer']) : null;
-		$this->mostLikeLySubmission = DataObject::get_by_id("SubmittedForm", intval(Session::get("UserDefinedFormWithPayPalID"))-0);
+		$this->mostLikeLySubmission = SubmittedForm::get()
+			->byID( intval(Session::get("UserDefinedFormWithPayPalID"))-0);
 		if($this->mostLikeLySubmission && $this->BusinessEmail) {
 			$customisedArray = array(
 				'Link' => $referrer,
@@ -156,7 +157,8 @@ class UserDefinedFormWithPayPal_Controller extends UserDefinedForm_Controller {
 				'CurrencyCode' => $this->CurrencyCode,
 				'ReturnLink' => $this->Link("paymentmade")
 			);
-			foreach(UserDefinedFormWithPayPal::get_mapped_fields() as $templateField => $forFieldsArray){
+			$mappedFields = Config::inst()->get("UserDefinedFormWithPayPal", "mapped_fields");
+			foreach($mappedFields as $templateField => $forFieldsArray){
 				$customisedArray[$templateField] = $this->getSubmittedFormValue($forFieldsArray);
 			}
 			return $this->customise(
@@ -189,10 +191,10 @@ class UserDefinedFormWithPayPal_Controller extends UserDefinedForm_Controller {
 		if($this->mostLikeLySubmission) {
 			foreach($nameArray as $name) {
 				$name = Convert::raw2sql($name);
-				$field = DataObject::get_one(
-					"SubmittedFormField",
-					" (\"Name\" = '$name' OR \"Title\" = '$name') AND \"ParentID\" = ".$this->mostLikeLySubmission->ID."
-				");
+				$field = SubmittedFormField::get()
+					->filterAny(array("Name" => $name, "Title" => $title))
+					->filter(array("ParentID" => $this->mostLikeLySubmission->ID))
+					->first();
 				if($field) {
 					return Convert::raw2att($field->Value);
 				}

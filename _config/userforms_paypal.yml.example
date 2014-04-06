@@ -1,0 +1,11 @@
+UserDefinedFormWithPayPal:
+  mapped_fields:
+		- Surname
+		  - Name
+		  - Surname
+		  - LastName
+		- Email
+		  - EmailAddress
+		  - email
+		  - MyEmail
+
