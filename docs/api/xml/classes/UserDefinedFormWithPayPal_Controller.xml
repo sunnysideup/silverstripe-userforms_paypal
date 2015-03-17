@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://xml.phpdox.net/src" full="UserDefinedFormWithPayPal_Controller" namespace="" name="UserDefinedFormWithPayPal_Controller" abstract="false" final="false" start="88" end="216">
+  <file path="/var/www/_modules/userforms_paypal/trunk/docs/en/phpdox/../../../code/model" file="UserDefinedFormWithPayPal.php" realpath="/var/www/_modules/userforms_paypal/trunk/code/model/UserDefinedFormWithPayPal.php" size="7260" time="2015-03-14T10:22:29+13:00" unixtime="1426281749" sha1="e3c9deb611ae5b37574504a446e0e40dc32e8f4c" relative="code/model/UserDefinedFormWithPayPal.php"/>
+  <docblock>
+    <description compact="Controller for the {@link UserDefinedFormWithPayPal} page type."/>
+    <package value="userform"/>
+    <subpackage value="pagetypes"/>
+  </docblock>
+  <extends full="UserDefinedForm_Controller" namespace="" name="UserDefinedForm_Controller"/>
+  <member name="mostLikeLySubmission" type="{unknown}" default="null" visibility="protected" line="95">
+    <docblock>
+      <description/>
+      <var description="Object" type="object">
+        <type full="SubmittedForm" namespace="" name="SubmittedForm"/>
+      </var>
+    </docblock>
+  </member>
+  <method name="process" start="104" end="126" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="Process the form that is submitted through the site"/>
+      <param type="object" variable="Data">
+        <type full="Array" namespace="" name="Array"/>
+      </param>
+      <param type="object" variable="Form">
+        <type full="Form" namespace="" name="Form"/>
+      </param>
+      <return type="object">
+        <type full="Redirection" namespace="" name="Redirection"/>
+      </return>
+    </docblock>
+    <parameter name="data" byreference="false" type="{unknown}"/>
+    <parameter name="form" byreference="false" type="{unknown}"/>
+    <inline>
+      <comment value="pre process?" line="105"/>
+      <comment value="post process" line="107"/>
+      <comment value="add a double-check" line="119"/>
+    </inline>
+  </method>
+  <method name="getnotification" start="132" end="134" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="Handle notification from PAYPAL to be completed."/>
+    </docblock>
+  </method>
+  <method name="finished" start="143" end="174" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="This action handles rendering the &quot;finished&quot; message, which is customisable by editing the ReceivedFormSubmission.ss template."/>
+      <return type="object">
+        <type full="ViewableData" namespace="" name="ViewableData"/>
+      </return>
+    </docblock>
+  </method>
+  <method name="paymentmade" start="180" end="182" abstract="false" final="false" static="false" visibility="public">
+    <docblock>
+      <description compact="This is the new finished method;"/>
+      <return type="object">
+        <type full="ViewableData" namespace="" name="ViewableData"/>
+      </return>
+    </docblock>
+  </method>
+  <method name="getSubmittedFormValue" start="190" end="204" abstract="false" final="false" static="false" visibility="protected">
+    <docblock>
+      <description compact="Checks for a list of fields in the submitted values to see if it is part of the submitted form e.g. if the user enters an Email in the form then we can pass this on to Paypal."/>
+      <param description="- array of fields to check for" type="object">
+        <type full="Array" namespace="" name="Array"/>
+      </param>
+    </docblock>
+    <parameter name="nameArray" byreference="false" type="{unknown}"/>
+  </method>
+  <method name="getCustomCode" start="211" end="213" abstract="false" final="false" static="false" visibility="protected">
+    <docblock>
+      <description compact="returns the unique identifier for the transaction we include the page ID and Version in case we need it."/>
+      <return type="object">
+        <type full="String" namespace="" name="String"/>
+      </return>
+    </docblock>
+  </method>
+</class>
