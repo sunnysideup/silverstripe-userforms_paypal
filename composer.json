@@ -1,23 +1,24 @@
 {
-	"name": "sunnysideup/userforms_paypal",
-	"type": "silverstripe-module",
-	"description": "adds a buy now / pay now button to your userdefined form in Silverstripe",
-	"homepage": "http://www.silverstripe-webdevelopment.com",
-	"keywords": ["userforms_paypal", "silverstripe"],
-	"license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
-	"authors":[
-		{
-			"name": "Nicolaas Francken",
-			"homepage": "https://github.com/sunnysideup",
-			"email" : "modules@sunnysideup.co.nz",
-			"role" : "lead developer"
-		}
-	],
-	"require":{
-		"silverstripe/framework": "~3.1",
-		"silverstripe/cms": "~3.1"
-	},
-	"extra": {
-		"installer-name": "userforms_paypal"
-	}
+    "name": "sunnysideup/userforms_paypal",
+    "type": "silverstripe-module",
+    "description": "adds a buy now / pay now button to your userdefined form in Silverstripe",
+    "keywords": [
+        "userforms_paypal",
+        "silverstripe"
+    ],
+    "license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
+    "authors": [
+        {
+            "name": "Nicolaas Francken",
+            "email": "modules@sunnysideup.co.nz",
+            "role": "lead developer"
+        }
+    ],
+    "require": {
+        "silverstripe/framework": "~3.1",
+        "silverstripe/cms": "~3.1"
+    },
+    "extra": {
+        "installer-name": "userforms_paypal"
+    }
 }
