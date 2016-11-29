@@ -3,8 +3,10 @@
     "type": "silverstripe-module",
     "description": "adds a buy now / pay now button to your userdefined form in Silverstripe",
     "keywords": [
-        "userforms_paypal",
-        "silverstripe"
+        "Silverstripe-CMS",
+        "CMS",
+        "Silverstripe",
+        "userforms_paypal"
     ],
     "license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
     "authors": [
