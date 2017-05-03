@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<index xmlns="http://xml.phpdox.net/src" basedir="/var/www/_modules/userforms_paypal/trunk">
-  <namespace name="">
-    <class name="UserDefinedFormWithPayPal" src="code/model/UserDefinedFormWithPayPal.php" xml="classes/UserDefinedFormWithPayPal.xml"/>
-    <class name="UserDefinedFormWithPayPal_Controller" src="code/model/UserDefinedFormWithPayPal.php" description="Controller for the {@link UserDefinedFormWithPayPal} page type." xml="classes/UserDefinedFormWithPayPal_Controller.xml"/>
-  </namespace>
-</index>
